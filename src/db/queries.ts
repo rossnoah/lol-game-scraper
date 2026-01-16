@@ -42,6 +42,11 @@ export function* streamMatchesByPatch(patch: string): Generator<MatchRecord> {
   }
 }
 
+export function getMatchesByPatchBatch(patch: string, limit: number, offset: number): MatchRecord[] {
+  const db = getDb();
+  return db.prepare('SELECT * FROM matches WHERE patch = ? LIMIT ? OFFSET ?').all(patch, limit, offset) as MatchRecord[];
+}
+
 export function getMatchCount(patch?: string): number {
   const db = getDb();
   if (patch) {
